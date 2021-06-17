@@ -19,3 +19,10 @@ Host someinternalhost
     ProxyJump bastion
     User appuser
 ```
+
+### Pritunl-OVPN
+
+```
+bastion_IP = 178.154.254.98
+someinternalhost_IP = 10.128.0.18
+```
