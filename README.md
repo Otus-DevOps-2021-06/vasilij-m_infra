@@ -1,7 +1,7 @@
 # vasilij-m_infra
 vasilij-m Infra repository
 
-### Подключение к *sominternalhost* одной командой:
+### Подключение к *someinternalhost* одной командой:
 
 ssh -J appuser@<bastion_public_ip> appuser@<someinternalhost_private_ip>
 
