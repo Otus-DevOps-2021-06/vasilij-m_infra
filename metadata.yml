@@ -55,6 +55,7 @@ packages:
   - build-essential
   - mongodb-org
   - git
+  - apt-transport-https
 
 runcmd:
   - [ systemctl, start, mongod ]
