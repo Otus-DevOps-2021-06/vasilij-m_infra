@@ -1,0 +1,27 @@
+{
+    "builders": [
+        {
+            "type": "yandex",
+            "service_account_key_file": "{{user `yc_service_account_key_file`}}",
+            "folder_id": "{{user `yc_folder_id`}}",
+            "source_image_id": "{{user `yc_source_image_id`}}",
+            "image_name": "{{user `yc_app_name`}}-test-{{timestamp}}",
+            "image_family": "{{user `yc_app_name`}}-test",
+            "ssh_username": "ubuntu",
+            "platform_id": "standard-v1",
+            "subnet_id": "{{user `yc_subnet_id`}}",
+            "use_ipv4_nat": true
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "echo 'start test build'",
+                "sudo apt install -y nginx curl",
+                "sudo systemctl start nginx",
+                "curl 127.0.0.1:80"
+            ]
+        }
+    ]
+}

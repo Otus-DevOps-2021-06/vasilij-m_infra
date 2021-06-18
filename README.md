@@ -46,3 +46,10 @@ yc compute instance create \
 --metadata serial-port-enable=1 \
 --metadata-from-file user-data=./metadata.yml
 ```
+
+### ДЗ №7. Сборка образов VM при помощи Packer
+
+**Выполнено:**
+* Основное задание с параметризацией шаблона
+* Доп. задание "Построение bake-образа" с запуском приложения с помощью systemd юнита
+* Доп. задание "Автоматизация создания ВМ"
