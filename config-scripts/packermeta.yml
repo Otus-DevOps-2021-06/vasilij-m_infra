@@ -1,0 +1,12 @@
+#cloud-config
+disable_root: true
+timezone: Europe/Moscow
+
+users:
+  - default
+  - name: yc-user
+    groups: sudo
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh-authorized-keys:
+      - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFZJ72lAf8Yj0NJo/5awZvH7bDlm3ZKHMEaYZeF5tcxktUOXb7f2rcHGpMKE9P4yyAr1Vlwj0SW01v3Sb8BK/v4= vasya@moisey-nb"
