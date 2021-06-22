@@ -22,30 +22,32 @@ resource "yandex_compute_instance" "app" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:${file(var.public_key_path)}"
+    user-data = "${file("./meta.yml")}"
+    # ssh-keys = "ubuntu:${file(var.public_key_path)}"
+    # ssh-keys = "appuser:${file(var.public_key_appuser_path)}"
   }
 
-  connection {
-    type = "ssh"
-    host        = self.network_interface.0.nat_ip_address
-    user        = "ubuntu"
-    agent       = false
-    private_key = file(var.private_key_path)
-  }
+  # connection {
+  #   type = "ssh"
+  #   host        = self.network_interface.0.nat_ip_address
+  #   user        = "ubuntu"
+  #   agent       = false
+  #   private_key = file(var.private_key_path)
+  # }
 
-  provisioner "remote-exec" {
-    inline = [
-      "echo export DATABASE_URL=${var.db_internal_ip} >> ~/.profile",
-    ]
-  }
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "echo export DATABASE_URL=${var.db_internal_ip} >> ~/.profile",
+  #   ]
+  # }
 
-  provisioner "file" {
-    source      = "../modules/app/puma.service"
-    destination = "/tmp/puma.service"
-  }
+  # provisioner "file" {
+  #   source      = "../modules/app/puma.service"
+  #   destination = "/tmp/puma.service"
+  # }
 
-  provisioner "remote-exec" {
-    script = "../modules/app/deploy.sh"
-  }
+  # provisioner "remote-exec" {
+  #   script = "../modules/app/deploy.sh"
+  # }
 
 }
