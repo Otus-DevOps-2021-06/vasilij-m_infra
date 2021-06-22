@@ -1,0 +1,15 @@
+#cloud-config
+users:
+  - name: ubuntu
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDrnrb++hXqehk7VgybG3TL+gFlG7LUhbsNCLeG91YEPbFO9G2Qr42txNStRP3bpUERUY/+QPL8q8r4udrM1CcVbfA6x8UR60A911Rl98guNmEA0KX9j6kwjHs6aeo/KBw15uDfiXzZAQw5i9RLQxKApeUqFj0DaEXx0uV0ZDxfOc6WX+xQbH2Lszf9YC9PUGCwO8aXfxPU1Cpxpru50RC1Z+EJBZgJnG4AaedgIlC3r7mZdOJWru+AUSNF6A0zeYWoXOdX7kKkqDV4/pF1nerovCknTVLF/+gttjBcCc3ZxyX5WsTIJdTvF6VM2jXMtXqgNzeQMKLFYBuKsfTNzZKYmAfljOVFkS1NTEbavP5z2qYmySCx2yYAInPw85/sGSBmd3LJUPeKIlsV8swfEnN+20UpG0GpeCExt/l/MMptj2LsA3pyqGktVTmIp23D/GYaxKYB0v+vgSq8oWbU2NzfmINv/8LX6xFzu9myk8QWcS/xkJewNEZ05FCZUUy/aJwF5bo/3jYuEVhaaAlIK8ZveMimX382YuV2GUcRMSgTZhLpWh8+1jSt+1NRjGMgvVDG+niAwWLAJ8Ba0ovfxAMAKBvWMF2qS7Kz74fhe+KqMRFaIPzTPm8KT1kcr9fAuajiiYoKRjGRRcWl7Kr3oaye/tRPf7WWvdeCzc3y5tkqMQ== vasya@moisey-nb
+
+  - name: appuser
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFZJ72lAf8Yj0NJo/5awZvH7bDlm3ZKHMEaYZeF5tcxktUOXb7f2rcHGpMKE9P4yyAr1Vlwj0SW01v3Sb8BK/v4= vasya@moisey-nb

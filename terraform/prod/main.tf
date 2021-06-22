@@ -9,6 +9,7 @@ provider "yandex" {
 module "app" {
   source          = "../modules/app"
   public_key_path = var.public_key_path
+  public_key_appuser_path = var.public_key_appuser_path
   app_disk_image  = var.app_disk_image
   # subnet_id        = var.subnet_id
   subnet_id        = module.vpc.subnet_id
@@ -19,6 +20,7 @@ module "app" {
 module "db" {
   source          = "../modules/db"
   public_key_path = var.public_key_path
+  public_key_appuser_path = var.public_key_appuser_path
   db_disk_image   = var.db_disk_image
   # subnet_id        = var.subnet_id
   subnet_id        = module.vpc.subnet_id

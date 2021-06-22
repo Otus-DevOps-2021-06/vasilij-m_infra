@@ -17,7 +17,10 @@ variable reddit_app_instance_count {
   default     = "1"
 }
 variable public_key_path {
-  description = "Path to the public key used for ssh access"
+  description = "Path to the public key for user ubuntu used for ssh access"
+}
+variable public_key_appuser_path {
+  description = "Path to the public key for user appuser used for ssh access"
 }
 variable image_id {
   description = "Disk image"
