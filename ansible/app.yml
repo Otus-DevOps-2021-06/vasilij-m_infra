@@ -1,0 +1,41 @@
+---
+- name: Configure App
+  hosts: app
+  become: true
+  vars:
+    db_host: "{{ hostvars['dbserver']['ansible_eth0']['ipv4']['address'] }}"
+  tasks:
+  - name: install git
+    apt:
+      name: git
+      state: present
+      update_cache: yes
+
+  - name: Add unit file for Puma
+    copy:
+      src: files/puma.service
+      dest: /etc/systemd/system/puma.service
+    notify: reload puma
+
+  - name: Add config for DB connection
+    template:
+      src: templates/db_config.j2
+      dest: /home/appuser/db_config
+      owner: appuser
+      group: appuser
+
+  - name: enable puma
+    systemd:
+      name: puma
+      enabled: yes
+
+  # - name: Show db ipv4
+  #   debug:
+  #     msg: "db ipv4 address is {{ hostvars['dbserver']['ansible_eth0']['ipv4']['address'] }}"
+  #   tags: ipv4
+
+  handlers:
+  - name: reload puma
+    systemd:
+      name: puma
+      state: restarted

@@ -1,0 +1,16 @@
+---
+- name: Build image for app
+  hosts: all
+  become: true
+
+  tasks:
+  - name: Install required packages
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+    loop:
+      - git
+      - ruby-full
+      - ruby-bundler
+      - build-essential
