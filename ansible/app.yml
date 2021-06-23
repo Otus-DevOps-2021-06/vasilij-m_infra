@@ -3,7 +3,7 @@
   hosts: app
   become: true
   vars:
-    db_host: 192.168.10.11
+    db_host: "{{ hostvars['dbserver']['ansible_eth0']['ipv4']['address'] }}"
   tasks:
   - name: install git
     apt:
@@ -28,6 +28,11 @@
     systemd:
       name: puma
       enabled: yes
+
+  # - name: Show db ipv4
+  #   debug:
+  #     msg: "db ipv4 address is {{ hostvars['dbserver']['ansible_eth0']['ipv4']['address'] }}"
+  #   tags: ipv4
 
   handlers:
   - name: reload puma
