@@ -3,10 +3,9 @@
   hosts: app
   become: true
   vars:
-    db_host: 192.168.10.10
+    db_host: 192.168.10.11
   tasks:
   - name: install git
-    become: true
     apt:
       name: git
       state: present
