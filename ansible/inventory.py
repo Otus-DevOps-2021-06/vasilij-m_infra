@@ -16,7 +16,6 @@ iamToken = json.loads(response.text)['iamToken']
 response = requests.get(instance_url, headers={'Authorization': 'Bearer ' + iamToken})
 
 
-content = json.loads(response.text)
 instances = json.loads(response.text)['instances']
 
 
@@ -59,7 +58,5 @@ inventory = { "app": { "hosts": app_hosts }, "db": { "hosts": db_hosts }, "_meta
 
 if args.list:
     print(json.dumps(inventory, indent=2))
-
-
-if args.host:
+elif args.host:
     print(inventory["_meta"]["hostvars"][args.host])
