@@ -8,7 +8,6 @@ import argparse
 yandexPassportOauthToken = os.environ.get('yandexPassportOauthToken')
 FOLDER_ID = os.environ.get('ycFolderId')
 IAM_URL = 'https://iam.api.cloud.yandex.net/iam/v1/tokens'
-AUTH_HEADER = "Bearer iamToken"
 instance_url = 'https://compute.api.cloud.yandex.net/compute/v1/instances?folderId=' + FOLDER_ID
 
 
