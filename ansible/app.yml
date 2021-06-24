@@ -3,7 +3,7 @@
   hosts: app
   become: true
   vars:
-    db_host: "{{ hostvars['dbserver']['ansible_eth0']['ipv4']['address'] }}"
+    db_host: "{{ hostvars['reddit-db']['ansible_eth0']['ipv4']['address'] }}"
   tasks:
   - name: install git
     apt:
