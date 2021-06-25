@@ -4,7 +4,7 @@
   become: true
 
   roles:
-    - app
+  - app
 
   # tasks:
   #   - name: Install required packages
