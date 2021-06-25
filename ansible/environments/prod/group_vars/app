@@ -1,3 +1,4 @@
+deploy_user: appuser
 db_host: "{{ hostvars['reddit-db']['ansible_eth0']['ipv4']['address'] }}"
 nginx_sites:
   default:
