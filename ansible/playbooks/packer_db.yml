@@ -4,7 +4,7 @@
   become: true
 
   roles:
-  -db
+  - db
 
   # tasks:
   #   - name: Add an apt signing key for MongoDB
