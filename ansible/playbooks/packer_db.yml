@@ -3,29 +3,32 @@
   hosts: all
   become: true
 
-  tasks:
-  - name: Add an apt signing key for MongoDB
-    apt_key:
-      url: https://www.mongodb.org/static/pgp/server-4.2.asc
-      state: present
+  roles:
+  - db
 
-  - name: Add MongoDB repositry
-    apt_repository:
-      repo: deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse
-      state: present
-      filename: mongodb-org-4.2
+  # tasks:
+  #   - name: Add an apt signing key for MongoDB
+  #     apt_key:
+  #       url: https://www.mongodb.org/static/pgp/server-4.2.asc
+  #       state: present
 
-  - name: Install required packages
-    apt:
-      name: "{{ item }}"
-      state: present
-      update_cache: yes
-    loop:
-      - apt-transport-https
-      - mongodb-org
+  #   - name: Add MongoDB repositry
+  #     apt_repository:
+  #       repo: deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse
+  #       state: present
+  #       filename: mongodb-org-4.2
 
-  - name: Start and enable MongoDB service
-    systemd:
-      name: mongod
-      state: started
-      enabled: yes
+  #   - name: Install required packages
+  #     apt:
+  #       name: "{{ item }}"
+  #       state: present
+  #       update_cache: yes
+  #     loop:
+  #       - apt-transport-https
+  #       - mongodb-org
+
+  #   - name: Start and enable MongoDB service
+  #     systemd:
+  #       name: mongod
+  #       state: started
+  #       enabled: yes
