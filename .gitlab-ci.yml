@@ -7,9 +7,9 @@ stages:
   - stage
   - production
 
-services:
-  - name: mongo:latest
-    alias: mongod
+# services:
+#   - name: mongo:latest
+#     alias: mongod
 
 variables:
   DATABASE_URL: 'mongod'
@@ -20,6 +20,8 @@ before_script:
 
 build_job:
   stage: build
+  services:
+    - docker:20.10.7-dind
   script:
     - echo 'Building reddit app...'
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
