@@ -15,9 +15,17 @@ before_script:
   - bundle install
 
 build_job:
-  stage: build
+  stage: build & run reddit app
   script:
     - echo 'Building'
+    - /usr/bin/mongod --fork --logpath /var/log/mongod.log --config /etc/mongodb.conf && puma
+  environment:
+    name: branch/$CI_COMMIT_REF_NAME
+    url: http://$CI_ENVIRONMENT_SLUG.example.com
+  only:
+    - branches
+  except:
+    - master
 
 test_unit_job:
   stage: test
