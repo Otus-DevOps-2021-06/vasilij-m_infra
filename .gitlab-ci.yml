@@ -18,7 +18,8 @@ build_job:
   stage: build & run reddit app
   script:
     - echo 'Building'
-    - /usr/bin/mongod --fork --logpath /var/log/mongod.log --config /etc/mongodb.conf && puma
+    - /usr/bin/mongod --fork --logpath /var/log/mongod.log --config /etc/mongodb.conf
+    - puma
   environment:
     name: branch/$CI_COMMIT_REF_NAME
     url: http://$CI_ENVIRONMENT_SLUG.example.com
