@@ -20,13 +20,23 @@ before_script:
 
 build_job:
   stage: build
-  services:
-    - docker:20.10.7-dind
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  before_script:
+    - mkdir -p /kaniko/.docker
+    - |
+      echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" \
+      > /kaniko/.docker/config.json
+
   script:
     - echo 'Building reddit app...'
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build --tag ${CI_REGISTRY_IMAGE}:${APP_BRANCH}_${CI_COMMIT_SHORT_SHA} .
-    - docker push ${CI_REGISTRY_IMAGE}:${APP_BRANCH}_${CI_COMMIT_SHORT_SHA}
+    - |
+      /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile \
+      --destination ${CI_REGISTRY_IMAGE}:${APP_BRANCH}_${CI_COMMIT_SHORT_SHA}
+
+    # docker build --tag ${CI_REGISTRY_IMAGE}:${APP_BRANCH}_${CI_COMMIT_SHORT_SHA} .
+
   # environment:
   #   name: branch/$CI_COMMIT_REF_NAME
   #   url: http://$CI_ENVIRONMENT_SLUG.example.com
