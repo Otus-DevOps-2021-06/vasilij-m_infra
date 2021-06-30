@@ -18,12 +18,11 @@ build_job:
   stage: build
   services:
     - name: mongo:latest
-      # alias: mongo
+      alias: mongodb
       command: ["--bind_ip_all"]
       # entrypoint: ["/usr/bin/mongod", "--bind_ip_all"]
   script:
     - echo 'Building'
-    # - /usr/bin/mongod --fork --logpath /var/log/mongod.log --config /etc/mongodb.conf
     - puma
   environment:
     name: branch/$CI_COMMIT_REF_NAME
