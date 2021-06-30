@@ -15,7 +15,7 @@ before_script:
   - bundle install
 
 build_job:
-  stage: build & run reddit app
+  stage: build
   script:
     - echo 'Building'
     - /usr/bin/mongod --fork --logpath /var/log/mongod.log --config /etc/mongodb.conf
