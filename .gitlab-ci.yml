@@ -19,7 +19,8 @@ build_job:
   services:
     - name: mongo:latest
       alias: mongodb
-      entrypoint: ["/usr/bin/mongod", "--bind_ip_all"]
+      command: ["--bind_ip_all"]
+      # entrypoint: ["/usr/bin/mongod", "--bind_ip_all"]
   script:
     - echo 'Building'
     # - /usr/bin/mongod --fork --logpath /var/log/mongod.log --config /etc/mongodb.conf
