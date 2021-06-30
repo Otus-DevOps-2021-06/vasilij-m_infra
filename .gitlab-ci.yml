@@ -7,8 +7,14 @@ stages:
   - stage
   - production
 
+services:
+  - mongo:latest
+  # - name: mongo:latest
+  #   alias: mongodb
+  #   command: ["--bind_ip_all"]
+
 variables:
-  DATABASE_URL: 'mongodb://mongo/user_posts'
+  DATABASE_URL: 'mongodb://mongo:27017/user_posts'
 
 before_script:
   - cd reddit
@@ -16,10 +22,10 @@ before_script:
 
 build_job:
   stage: build
-  services:
-    - name: mongo:latest
-      alias: mongodb
-      command: ["--bind_ip_all"]
+  # services:
+  #   - name: mongo:latest
+  #     alias: mongodb
+  #     command: ["--bind_ip_all"]
       # entrypoint: ["/usr/bin/mongod", "--bind_ip_all"]
   script:
     - echo 'Building'
