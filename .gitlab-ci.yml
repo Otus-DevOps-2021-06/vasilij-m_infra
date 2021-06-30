@@ -31,9 +31,7 @@ build_job:
 
   script:
     - echo 'Building reddit app...'
-    - |
-      /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile \
-      --destination ${CI_REGISTRY_IMAGE}:${APP_BRANCH}_${CI_COMMIT_SHORT_SHA}
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination ${CI_REGISTRY_IMAGE}:${APP_BRANCH}_${CI_COMMIT_SHORT_SHA}
 
     # docker build --tag ${CI_REGISTRY_IMAGE}:${APP_BRANCH}_${CI_COMMIT_SHORT_SHA} .
 
