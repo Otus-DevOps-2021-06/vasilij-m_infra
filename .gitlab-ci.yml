@@ -9,12 +9,12 @@ stages:
 
 services:
   - name: mongo:latest
-    alias: mongo
-    command: ["mongod", "--bind_ip_all"]
+    alias: mongod
+    # command: ["mongod", "--bind_ip_all"]
 
 variables:
   # DATABASE_URL: 'mongodb://mongo:27017/user_posts'
-  DATABASE_URL: 'mongo'
+  DATABASE_URL: 'mongod'
 
 
 before_script:
@@ -25,7 +25,7 @@ build_job:
   stage: build
   script:
     - echo 'Building'
-    - puma
+    - puma -d
   # environment:
   #   name: branch/$CI_COMMIT_REF_NAME
   #   url: http://$CI_ENVIRONMENT_SLUG.example.com
