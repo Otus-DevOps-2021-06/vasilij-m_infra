@@ -24,6 +24,8 @@ build_job:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   before_script:
+    - echo $CI_REGISTRY_USER
+    - echo $CI_REGISTRY_PASSWORD
     - mkdir -p /kaniko/.docker
     - |
       echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" \
