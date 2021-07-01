@@ -7,10 +7,6 @@ stages:
   - stage
   - production
 
-# services:
-#   - name: mongo:latest
-#     alias: mongod
-
 variables:
   DOCKER_TLS_CERTDIR: ""
   DATABASE_URL: 'mongod'
@@ -19,46 +15,43 @@ before_script:
   - cd reddit
   - bundle install
 
-# build_job:
-#   stage: build
-#   image: docker:20.10.2
-#   services:
-#     - docker:20.10.2-dind
-#   before_script:
-#     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
-#   script:
-#     - echo 'Building reddit app..'
-#     - docker build -t $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA} ./reddit
-#     - docker push $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA}
-  # environment:
-  #   name: branch/$CI_COMMIT_REF_NAME
-  #   url: http://$CI_ENVIRONMENT_SLUG.example.com
-  # only:
-  #   - branches
-  # except:
-  #   - master
+build_job:
+  stage: build
+  image: docker:20.10.2
+  services:
+    - docker:20.10.2-dind
+  before_script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+  script:
+    - echo 'Building reddit app..'
+    - docker build -t $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA} ./reddit
+    - docker push $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA}
+  only:
+    - branches
+  except:
+    - master
 
-# test_unit_job:
-#   stage: test
-#   services:
-#     - mongo:latest
-#   script:
-#     - ruby simpletest.rb
+test_unit_job:
+  stage: test
+  services:
+    - mongo:latest
+  script:
+    - ruby simpletest.rb
 
-# test_integration_job:
-#   stage: test
-#   script:
-#     - echo 'Testing 2'
+test_integration_job:
+  stage: test
+  script:
+    - echo 'Testing 2'
 
-# deploy_dev_job:
-#   stage: review
-#   script:
-#     - echo 'Deploy'
-#   environment:
-#     name: dev
-#     url: http://dev.example.com
+deploy_dev_job:
+  stage: review
+  script:
+    - echo 'Deploy'
+  environment:
+    name: dev
+    url: http://dev.example.com
 
-deploy_reddit:
+deploy_reddit_app:
   stage: review
   tags:
     - shell
@@ -77,35 +70,35 @@ deploy_reddit:
   except:
     - master
 
-# branch review:
-#   stage: review
-#   script: echo "Deploy to $CI_ENVIRONMENT_SLUG"
-#   environment:
-#     name: branch/$CI_COMMIT_REF_NAME
-#     url: http://$CI_ENVIRONMENT_SLUG.example.com
-#   only:
-#     - branches
-#   except:
-#     - master
+branch review:
+  stage: review
+  script: echo "Deploy to $CI_ENVIRONMENT_SLUG"
+  environment:
+    name: branch/$CI_COMMIT_REF_NAME
+    url: http://$CI_ENVIRONMENT_SLUG.example.com
+  only:
+    - branches
+  except:
+    - master
 
-# staging:
-#   stage: stage
-#   when: manual
-#   only:
-#     - /^\d+\.\d+\.\d+/
-#   script:
-#     - echo 'Deploy'
-#   environment:
-#     name: beta
-#     url: http://beta.example.com
+staging:
+  stage: stage
+  when: manual
+  only:
+    - /^\d+\.\d+\.\d+/
+  script:
+    - echo 'Deploy'
+  environment:
+    name: beta
+    url: http://beta.example.com
 
-# production:
-#   stage: production
-#   when: manual
-#   only:
-#     - /^\d+\.\d+\.\d+/
-#   script:
-#     - echo 'Deploy'
-#   environment:
-#     name: production
-#     url: http://example.com
+production:
+  stage: production
+  when: manual
+  only:
+    - /^\d+\.\d+\.\d+/
+  script:
+    - echo 'Deploy'
+  environment:
+    name: production
+    url: http://example.com
