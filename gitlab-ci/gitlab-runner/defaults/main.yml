@@ -1,0 +1,16 @@
+---
+# GITLAB RUNNER INSTALL
+gitlab_runner_pkg_url: https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb
+gitlab_runner_pkg_dest: /tmp/gitlab-runner_amd64.deb
+gitlab_runner_register_url: "https://gitlab.com/"
+gitlab_runner_register_token: ""
+gitlab_runner_url: http://217.28.231.139/
+
+# GITLAB SHELL RUNNER REGISTER
+gitlab_runner_shell_name: ShellRunner
+gitlab_runner_shell_tags: ["linux", "shell"]
+
+# GITLAB DOCKER RUNNER REGISTER
+gitlab_runner_docker_name: DockerRunner
+gitlab_runner_docker_tags: ["linux", "xenial", "ubuntu", "docker"]
+gitlab_runner_docker_image: alpine:latest

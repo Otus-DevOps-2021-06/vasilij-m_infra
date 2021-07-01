@@ -94,13 +94,13 @@ staging:
     name: beta
     url: http://beta.example.com
 
-# production:
-#   stage: production
-#   when: manual
-#   only:
-#     - /^\d+\.\d+\.\d+/
-#   script:
-#     - echo 'Deploy'
-#   environment:
-#     name: production
-#     url: http://example.com
+production:
+  stage: production
+  when: manual
+  only:
+    - /^\d+\.\d+\.\d+/
+  script:
+    - echo 'Deploy'
+  environment:
+    name: production
+    url: http://example.com

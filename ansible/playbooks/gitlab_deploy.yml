@@ -1,0 +1,8 @@
+---
+- name: Install & run Gitlab server in docker
+  hosts: gitlab-srv
+  become: true
+
+  roles:
+  - docker
+  - gitlab-srv

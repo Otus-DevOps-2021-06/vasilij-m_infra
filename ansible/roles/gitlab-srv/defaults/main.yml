@@ -1,0 +1,9 @@
+---
+gitlab_dirs:
+  - /srv/gitlab/config
+  - /srv/gitlab/data
+  - /srv/gitlab/logs
+
+gitlab_root_dir: /srv/gitlab
+
+gitlab_external_ip: "{{ hostvars['gitlab-srv-1']['ansible_host'] }}"

@@ -1,0 +1,32 @@
+---
+- name: Run docker container with gitlab-runner
+  docker_container:
+    name: gitlab-runner
+    image: gitlab/gitlab-runner:v14.0.1
+    state: started
+    restart_policy: always
+    volumes:
+      - /srv/gitlab-runner/config:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+
+- name: Find out if runner is already registered
+  command: docker exec gitlab-runner cat /etc/gitlab-runner/config.toml
+  failed_when: false
+  changed_when: false
+  ignore_errors: true
+  register: registered_runners
+
+- name: Register gitlab docker runner
+  command: >
+    docker exec -it gitlab-runner gitlab-runner register \
+    --url "{{ gitlab_runner_url }}" \
+    --non-interactive \
+    --locked=false \
+    --name "{{ gitlab_runner_docker_name }}" \
+    --executor docker \
+    --docker-image "{{ gitlab_runner_docker_image }}" \
+    --docker-privileged \
+    --registration-token "{{ gitlab_runner_register_token }}" \
+    --tag-list "{{ gitlab_runner_docker_tags | join(",") }}" \
+    --run-untagged
+  when: 'gitlab_runner_docker_name|string not in registered_runners.stdout'

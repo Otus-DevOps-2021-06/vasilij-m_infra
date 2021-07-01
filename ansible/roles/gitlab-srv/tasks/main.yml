@@ -1,0 +1,33 @@
+---
+- debug:
+    msg: "Running installation of GitLab server ..."
+
+- name: Create required directories for GitLab
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop: "{{ gitlab_dirs }}"
+
+- name: Copy docker-compose template
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ gitlab_root_dir }}/docker-compose.yml"
+
+- debug:
+    msg: "Running GitLab server ..."
+
+- name: Run GitLab server
+  docker_compose:
+    project_src: "{{ gitlab_root_dir }}"
+
+- name: Wait for healthy status of GitLab container
+  docker_container_info:
+    name: gitlab_web_1
+  register: result
+  until: result.container.State.Health.Status == "healthy"
+  retries: 100
+  delay: 10
+
+- name: Show status
+  debug:
+    msg: "GitLab container status is {{result.container.State.Health.Status}}. Installation complete."

@@ -1,0 +1,7 @@
+---
+- name: Install docker & docker-compose
+  hosts: gitlab-srv
+  become: true
+
+  roles:
+  - docker

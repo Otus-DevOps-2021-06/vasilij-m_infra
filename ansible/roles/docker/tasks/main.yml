@@ -1,0 +1,7 @@
+---
+- name: Install docker-ce & docker-compose
+  debug:
+    msg: "Installing docker-ce & docker-compose ..."
+
+- include: docker-install.yml
+- include: compose-install.yml

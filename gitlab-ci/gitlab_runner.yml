@@ -1,0 +1,7 @@
+---
+- name: Install & run Gitlab runners
+  hosts: gitlab-srv
+  become: true
+
+  roles:
+  - gitlab-runner
