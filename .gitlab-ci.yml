@@ -12,7 +12,6 @@ stages:
 #     alias: mongod
 
 variables:
-  DOCKER_TLS_CERTDIR: ""
   DATABASE_URL: 'mongod'
 
 before_script:
@@ -21,18 +20,11 @@ before_script:
 
 build_job:
   stage: build
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
+  image: docker:20.10.2
   before_script: []
   script:
     - echo 'Building reddit app..'
-    - echo $CI_REGISTRY_USER
-    - echo $CI_REGISTRY_PASSWORD
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context ${CI_PROJECT_DIR}/reddit --dockerfile ${CI_PROJECT_DIR}/reddit/Dockerfile --destination ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
-
+    - docker build -t reddit:${CI_COMMIT_REF_NAME_}_${CI_COMMIT_SHORT_SHA} ./reddit
   # environment:
   #   name: branch/$CI_COMMIT_REF_NAME
   #   url: http://$CI_ENVIRONMENT_SLUG.example.com
