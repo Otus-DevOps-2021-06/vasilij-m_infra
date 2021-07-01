@@ -12,6 +12,7 @@ stages:
 #     alias: mongod
 
 variables:
+  DOCKER_TLS_CERTDIR: ""
   DATABASE_URL: 'mongod'
 
 before_script:
