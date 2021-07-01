@@ -1,0 +1,17 @@
+- name: Install Python dependencies for PIP
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ python_pip_dependencies }}"
+
+- name: Ensure pip is updated
+  pip:
+    name: pip
+    state: latest
+
+- name: Install pip packages for docker-compose
+  pip:
+    name: "{{ item }}"
+    executable: "{{ python_pip_executable }}"
+    state: present
+  loop: "{{ python_pip_packages }}"

@@ -1,0 +1,33 @@
+- name: Download runner packages
+  get_url:
+    url: "{{ gitlab_runner_pkg_url }}"
+    dest: "{{ gitlab_runner_pkg_dest }}"
+
+- name: Install runner
+  apt:
+    deb: "{{ gitlab_runner_pkg_dest }}"
+
+- name: Add gitlab-runner user to docker group
+  user:
+    name: gitlab-runner
+    groups: docker
+    append: yes
+
+- name: Find out if runner is already registered
+  command: cat /etc/gitlab-runner/config.toml
+  failed_when: false
+  changed_when: false
+  ignore_errors: true
+  register: registered_runners
+
+- name: Register gitlab shell runner
+  command: >
+    gitlab-runner register \
+    --url "{{ gitlab_runner_url }}" \
+    --non-interactive \
+    --locked=false \
+    --name "{{ gitlab_runner_shell_name }}" \
+    --executor shell \
+    --registration-token "{{ gitlab_runner_register_token }}" \
+    --tag-list "{{ gitlab_runner_shell_tags | join(",") }}"
+  when: 'gitlab_runner_shell_name|string not in registered_runners.stdout'

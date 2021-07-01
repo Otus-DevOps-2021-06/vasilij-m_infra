@@ -1,0 +1,7 @@
+---
+- name: Deploy GitLab runners
+  debug:
+    msg: "Deploying started ..."
+
+- include: docker_runner.yml
+- include: shell_runner.yml
