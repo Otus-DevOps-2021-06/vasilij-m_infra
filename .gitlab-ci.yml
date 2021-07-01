@@ -60,6 +60,7 @@ before_script:
 
 deploy_reddit:
   stage: review
+  image: docker:20.10.2
   tags:
     - shell
   before_script: []
