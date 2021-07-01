@@ -65,6 +65,7 @@ deploy_reddit:
   before_script: []
   script:
     - docker network create reddit || true
+    - docker kill $(docker ps --filter name=reddit-* -aq)
     - docker run -d --name reddit-mongo --network=reddit --network-alias=mongod mongo:latest
     - docker run -d --name reddit-app --network=reddit --env DATABASE_URL=mongod -p 9292:9292 $REGISTRY_USER/reddit:5da306d8
   environment:
