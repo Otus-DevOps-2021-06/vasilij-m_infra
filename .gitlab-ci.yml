@@ -36,7 +36,7 @@ test_unit_job:
   before_script:
     - cd reddit
     # - gem install bcrypt -v '3.1.11' && bundle install
-    - gem install bundler:1.16.1 && bundle install
+    - gem install bundler:1.16.1 && gem install puma -v '3.10.0' && bundle install
   services:
     - mongo:latest
   script:
