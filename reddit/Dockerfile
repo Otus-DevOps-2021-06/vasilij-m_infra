@@ -9,7 +9,7 @@ RUN apt-get update -qq && apt-get install -y build-essential
 WORKDIR $APP_HOME
 
 COPY Gemfile* $APP_HOME/
-RUN bundle install
+RUN gem update bundler && bundle install
 COPY . $APP_HOME
 
 CMD ["puma"]
