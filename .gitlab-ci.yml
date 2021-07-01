@@ -24,10 +24,13 @@ build_job:
   image: docker:20.10.2
   services:
     - docker:20.10.2-dind
-  before_script: []
+  before_script:
+    # - docker login -u -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+    - docker login -u -u vasiilij -p Realmad1!@&
   script:
     - echo 'Building reddit app..'
-    - docker build -t reddit:${CI_COMMIT_REF_NAME_}_${CI_COMMIT_SHORT_SHA} ./reddit
+    - docker build -t vasiilij/reddit:${CI_COMMIT_SHORT_SHA} ./reddit
+    - docker push vasiilij/reddit:${CI_COMMIT_SHORT_SHA}
   # environment:
   #   name: branch/$CI_COMMIT_REF_NAME
   #   url: http://$CI_ENVIRONMENT_SLUG.example.com
