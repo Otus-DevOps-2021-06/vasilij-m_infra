@@ -19,18 +19,17 @@ before_script:
   - cd reddit
   - bundle install
 
-build_job:
-  stage: build
-  image: docker:20.10.2
-  services:
-    - docker:20.10.2-dind
-  before_script:
-    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
-    # - docker login -u vasiilij -p Realmad1!@&
-  script:
-    - echo 'Building reddit app..'
-    - docker build -t vasiilij/reddit:${CI_COMMIT_SHORT_SHA} ./reddit
-    - docker push vasiilij/reddit:${CI_COMMIT_SHORT_SHA}
+# build_job:
+#   stage: build
+#   image: docker:20.10.2
+#   services:
+#     - docker:20.10.2-dind
+#   before_script:
+#     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+#   script:
+#     - echo 'Building reddit app..'
+#     - docker build -t $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA} ./reddit
+#     - docker push $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA}
   # environment:
   #   name: branch/$CI_COMMIT_REF_NAME
   #   url: http://$CI_ENVIRONMENT_SLUG.example.com
@@ -58,6 +57,23 @@ build_job:
 #   environment:
 #     name: dev
 #     url: http://dev.example.com
+
+deploy_reddit:
+  stage: review
+  tags:
+    - shell
+  before_script: []
+  script:
+    - docker network create reddit || true
+    - docker run -d --network=reddit --network-alias=mongod mongo:latest
+    - docker run -d --network=reddit --env DATABASE_URL=mongod -p 9292:9292 $REGISTRY_USER/reddit:5da306d8
+  environment:
+    name: reddit/$CI_COMMIT_REF_NAME
+    url: http://$CI_ENVIRONMENT_SLUG.example.com
+  only:
+    - branches
+  except:
+    - master
 
 # branch review:
 #   stage: review
