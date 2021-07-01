@@ -15,24 +15,27 @@ before_script:
   - cd reddit
   - bundle install
 
-build_job:
-  stage: build
-  image: docker:20.10.2
-  services:
-    - docker:20.10.2-dind
-  before_script:
-    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
-  script:
-    - echo 'Building reddit app..'
-    - docker build -t $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA} ./reddit
-    - docker push $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA}
-  only:
-    - branches
-  except:
-    - master
+# build_job:
+#   stage: build
+#   image: docker:20.10.2
+#   services:
+#     - docker:20.10.2-dind
+#   before_script:
+#     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+#   script:
+#     - echo 'Building reddit app..'
+#     - docker build -t $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA} ./reddit
+#     - docker push $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA}
+#   only:
+#     - branches
+#   except:
+#     - master
 
 test_unit_job:
   stage: test
+  before_script:
+    - cd reddit
+    - gem install bcrypt -v '3.1.11' && bundle install
   services:
     - mongo:latest
   script:
@@ -51,24 +54,24 @@ deploy_dev_job:
     name: dev
     url: http://dev.example.com
 
-deploy_reddit_app:
-  stage: review
-  tags:
-    - shell
-  before_script: []
-  script:
-    - docker network create reddit || true
-    - docker kill $(docker ps --filter name=reddit-* -aq) || true
-    - docker rm $(docker ps --filter name=reddit-* -aq) || true
-    - docker run -d --name reddit-mongo --network=reddit --network-alias=mongod mongo:latest
-    - docker run -d --name reddit-app --network=reddit --env DATABASE_URL=mongod -p 9292:9292 $REGISTRY_USER/reddit:5da306d8
-  environment:
-    name: reddit-test/$CI_COMMIT_REF_NAME
-    url: http://$CI_ENVIRONMENT_SLUG.example.com
-  only:
-    - branches
-  except:
-    - master
+# deploy_reddit_app:
+#   stage: review
+#   tags:
+#     - shell
+#   before_script: []
+#   script:
+#     - docker network create reddit || true
+#     - docker kill $(docker ps --filter name=reddit-* -aq) || true
+#     - docker rm $(docker ps --filter name=reddit-* -aq) || true
+#     - docker run -d --name reddit-mongo --network=reddit --network-alias=mongod mongo:latest
+#     - docker run -d --name reddit-app --network=reddit --env DATABASE_URL=mongod -p 9292:9292 $REGISTRY_USER/reddit:${CI_COMMIT_SHORT_SHA}
+#   environment:
+#     name: reddit-test/$CI_COMMIT_REF_NAME
+#     url: http://$CI_ENVIRONMENT_SLUG.example.com
+#   only:
+#     - branches
+#   except:
+#     - master
 
 branch review:
   stage: review
